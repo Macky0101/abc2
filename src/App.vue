@@ -4,7 +4,10 @@ import AppHeader from './components/AppHeader.vue';
 import HeroSection from './components/HeroSection.vue';
 import DomainCard from './components/DomainCard.vue';
 import SectorCard from './components/SectorCard.vue';
-import type { DomainCard as DomainCardType, SectorCard as SectorCardType } from './types';
+import type { 
+  DomainCard as DomainCardType, 
+  SectorCard as SectorCardType
+} from './types';
 
 // Données descriptives
 const companyDescription = ref<string>(`ABC2 – Group est une entreprise spécialisée dans l'import-export et la distribution d'équipements industriels, de pièces de rechange, de produits chimiques et de lubrifiants haute performance, destinés aux industries de pointe. Forte d'une expertise éprouvée et d'un réseau international de partenaires de confiance, ABC2 – Group accompagne les entreprises industrielles en leur proposant des solutions fiables, personnalisées et durables pour optimiser leurs opérations.`);
@@ -119,7 +122,7 @@ const teamMembers = ref([
   }
 ]);
 
-// Partenaires
+// Partenaires (version simplifiée)
 const partners = ref({
   mainPartner: 'ELEMENT®',
   mainDescription: 'En partenariat avec Element Mining and Construction Oy (Finlande), nous fournissons une gamme complète de pièces d\'usure et de rechange, entièrement compatibles avec les grandes marques telles que Metso, Warman, Sandvik, FLS, et bien d\'autres. Conçues selon des normes d\'ingénierie rigoureuses, les pièces ELEMENT® assurent une performance optimale à des coûts compétitifs.',
