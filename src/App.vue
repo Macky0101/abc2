@@ -283,7 +283,7 @@ onMounted(() => {
     <!-- Contact -->
     <section id="contact" class="section contact-section" :class="{ 'visible': isVisible['contact'] }">
       <div class="container">
-        <h2 class="section-title">Contactez-Nous</h2>
+        <h2 class="section-title-contact">Contactez-Nous</h2>
         <div class="contact-content">
           <p class="contact-description">{{ contactInfo.description }}</p>
           <div class="contact-email">
@@ -295,16 +295,12 @@ onMounted(() => {
         </div>
       </div>
     </section>
-
     <!-- Footer -->
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
           <div class="footer-logo">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 30L20 10L30 30L25 20H15L10 30Z" fill="#F59E0B"/>
-              <path d="M20 10L30 30H35L25 10H20Z" fill="#047857"/>
-            </svg>
+            <img src="../public/assets/logo-re.png" alt="Logo" class="logo">
             <span class="logo-text">ABC2-GROUP</span>
           </div>
           <nav class="footer-nav">
@@ -396,8 +392,8 @@ body {
 }
 
 .contact-section {
-  background: #047857;
-  color: white;
+  background: #F5F5F0;
+  color: rgb(0, 0, 0);
 }
 
 .section-title {
@@ -406,6 +402,13 @@ body {
   text-align: center;
   margin-bottom: 3rem;
   color: inherit;
+}
+.section-title-contact {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: rgb(0, 0, 0);
 }
 
 .contact-section .section-title {
@@ -610,21 +613,24 @@ body {
   align-items: center;
   gap: 0.75rem;
   padding: 1rem 2rem;
-  background: rgba(255,255,255,0.1);
+  background: #ffffff;
   border-radius: 50px;
   transition: background 0.3s ease;
+  border-color: #c7c79e;
+  border-style: solid;
+  border-width: 1px;
 }
 
 .contact-email:hover {
-  background: rgba(255,255,255,0.2);
+  background: #c7c79e;
 }
 
 .email-icon {
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 .email-link {
-  color: white;
+  color: rgb(0, 0, 0);
   font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;
@@ -637,8 +643,8 @@ body {
 
 /* Footer */
 .footer {
-  background: #1a1a1a;
-  color: white;
+  background: #cdcdb9;
+  color: rgb(0, 0, 0);
   padding: 3rem 0;
 }
 
@@ -655,6 +661,16 @@ body {
   align-items: center;
   gap: 0.75rem;
 }
+.logo{
+  display: flex;
+  width: 70px;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  z-index: 1002;
+}
+
 
 .logo-text {
   font-size: 1.5rem;

@@ -85,10 +85,7 @@ import { watch, onBeforeUnmount } from 'vue';
   <header :class="['header', { 'scrolled': isScrolled, 'menu-open': isMenuOpen }]">
     <div class="container">
       <div class="logo" @click="smoothScroll('#home')">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 30L20 10L30 30L25 20H15L10 30Z" fill="#F59E0B"/>
-          <path d="M20 10L30 30H35L25 10H20Z" fill="#047857"/>
-        </svg>
+        <img src="../../public/assets/logo-re.png" alt="Logo" class="logo">
         <span class="logo-text">ABC2-GROUP</span>
       </div>
 
@@ -160,6 +157,7 @@ import { watch, onBeforeUnmount } from 'vue';
   cursor: pointer;
   transition: transform 0.3s ease;
   z-index: 1002;
+  width: 70px;
 }
 
 .logo:hover {
