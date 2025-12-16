@@ -85,8 +85,8 @@ import { watch, onBeforeUnmount } from 'vue';
   <header :class="['header', { 'scrolled': isScrolled, 'menu-open': isMenuOpen }]">
     <div class="container">
       <div class="logo" @click="smoothScroll('#home')">
-        <img src="../../public/assets/logo-re.png" alt="Logo" class="logo">
-        <span class="logo-text">ABC2-GROUP</span>
+        <img src="../../src/assets/logo-re.png" alt="Logo" class="logo">
+        <span class="logo-text responsive-text">ABC2-GROUP</span>
       </div>
 
       <!-- Menu Hamburger pour mobile -->
@@ -127,9 +127,9 @@ import { watch, onBeforeUnmount } from 'vue';
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /* background: #F1F8F0; */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   transition: all 0.3s ease;
   padding: 1rem 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -165,11 +165,14 @@ import { watch, onBeforeUnmount } from 'vue';
 }
 
 .logo-text {
-  font-size: 1.5rem;
+  white-space: nowrap;
   font-weight: 700;
   color: #1a1a1a;
   letter-spacing: -0.5px;
+  font-size: clamp(0.95rem, 2.5vw, 1.5rem);
 }
+
+
 
 /* Menu Toggle (Hamburger) */
 .menu-toggle {
@@ -263,7 +266,7 @@ import { watch, onBeforeUnmount } from 'vue';
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 880px) {
   .container {
     padding: 0 1rem;
   }

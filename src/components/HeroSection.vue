@@ -23,25 +23,28 @@ import { onBeforeUnmount } from 'vue';
 <template>
   <section class="hero">
     <!-- Image de fond optimisée pour mobile -->
-    <picture>
-      <!-- Pour mobile (écrans étroits) -->
-      <source 
-        media="(max-width: 768px)" 
-        srcset="https://images.pexels.com/photos/1267338/pexels-photo-1267338.jpeg?auto=compress&cs=tinysrgb&w=800&h=1200&fit=crop"
-      >
-      <!-- Pour tablette -->
-      <source 
-        media="(max-width: 1024px)" 
-        srcset="https://images.pexels.com/photos/1267338/pexels-photo-1267338.jpeg?auto=compress&cs=tinysrgb&w=1200"
-      >
-      <!-- Pour desktop -->
-      <img
-        src="https://images.pexels.com/photos/1267338/pexels-photo-1267338.jpeg?auto=compress&cs=tinysrgb&w=1920"
-        alt="Approvisionnement technique"
-        class="hero-bg"
-        loading="eager"
-      >
-    </picture>
+   <picture>
+  <!-- Mobile -->
+  <source
+    media="(max-width: 768px)"
+    srcset="../../src/assets/imageabc2.png"
+  />
+
+  <!-- Tablette -->
+  <source
+    media="(max-width: 1024px)"
+    srcset="../../src/assets/imageabc2.png"
+  />
+
+  <!-- Desktop (fallback obligatoire) -->
+  <img
+    src="../../src/assets/imageabc2.png"
+    alt="Approvisionnement technique"
+    class="hero-bg"
+    loading="eager"
+  />
+</picture>
+
     
     <div class="hero-overlay"></div>
     <div class="hero-content">

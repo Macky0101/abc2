@@ -20,7 +20,7 @@ defineProps<{
 
 <style scoped>
 .domain-card {
-  background: white;
+  background: #F1F8F0;
   padding: 2.5rem 2rem;
   border-radius: 8px;
   text-align: center;

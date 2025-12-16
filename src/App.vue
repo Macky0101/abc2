@@ -4,6 +4,9 @@ import AppHeader from './components/AppHeader.vue';
 import HeroSection from './components/HeroSection.vue';
 import DomainCard from './components/DomainCard.vue';
 import SectorCard from './components/SectorCard.vue';
+import IndustrieMiniereImg from '../src/assets/miniers.jpg';
+import AgroIndustrieImg from '../src/assets/barrile.png';
+import EnergieRenouvelableImg from '../src/assets/champ.jpg';
 import type { 
   DomainCard as DomainCardType, 
   SectorCard as SectorCardType
@@ -36,12 +39,44 @@ const contactInfo = ref({
 const domainCards = ref<DomainCardType[]>([
   {
     icon: `<svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M50 20 L30 35 L35 50 L50 45 L65 50 L70 35 Z" stroke="currentColor" stroke-width="3" fill="none"/>
-      <circle cx="50" cy="50" r="8" fill="currentColor"/>
-      <path d="M30 60 L25 75 L40 75 L35 60" stroke="currentColor" stroke-width="3" fill="none"/>
-      <path d="M70 60 L75 75 L60 75 L65 60" stroke="currentColor" stroke-width="3" fill="none"/>
-      <line x1="42" y1="28" x2="38" y2="22" stroke="currentColor" stroke-width="3"/>
-      <line x1="58" y1="28" x2="62" y2="22" stroke="currentColor" stroke-width="3"/>
+      <!-- Gros engrenage (en bas à gauche) -->
+      <circle cx="35" cy="65" r="15" stroke="currentColor" stroke-width="2.5" fill="none"/>
+      
+      <!-- Dents du gros engrenage -->
+      <rect x="49" y="64" width="5" height="2" rx="0.5" fill="currentColor"/>
+      <rect x="21" y="64" width="5" height="2" rx="0.5" fill="currentColor"/>
+      <rect x="34" y="49" width="2" height="5" rx="0.5" fill="currentColor"/>
+      <rect x="34" y="79" width="2" height="5" rx="0.5" fill="currentColor"/>
+      
+      <!-- Petit engrenage (en haut à droite) -->
+      <circle cx="65" cy="35" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+      
+      <!-- Dents du petit engrenage -->
+      <rect x="74" y="34" width="3" height="2" rx="0.5" fill="currentColor"/>
+      <rect x="56" y="34" width="3" height="2" rx="0.5" fill="currentColor"/>
+      <rect x="64" y="46" width="2" height="3" rx="0.5" fill="currentColor"/>
+      <rect x="64" y="24" width="2" height="3" rx="0.5" fill="currentColor"/>
+      
+      <!-- Centre des engrenages -->
+      <circle cx="35" cy="65" r="3" fill="currentColor"/>
+      <circle cx="65" cy="35" r="2" fill="currentColor"/>
+      
+      <!-- Flèche de connexion (diagonale avec double flèche) -->
+      <path d="M40 60 L60 40" stroke="currentColor" stroke-width="3" fill="none"/>
+      
+      <!-- Tête de flèche (double sens) -->
+      <path d="M45 55 L40 60 L42 62" fill="currentColor"/>
+      <path d="M55 45 L60 40 L58 38" fill="currentColor"/>
+      
+      <!-- Points de connexion -->
+      <circle cx="40" cy="60" r="3" fill="currentColor"/>
+      <circle cx="60" cy="40" r="3" fill="currentColor"/>
+      
+      <!-- Indication import (flèche vers le gros engrenage) -->
+      <path d="M38 62 L33 67 L35 69" fill="#047857"/>
+      
+      <!-- Indication export (flèche vers le petit engrenage) -->
+      <path d="M62 38 L67 33 L65 31" fill="#DC2626"/>
     </svg>`,
     title: 'Import-Export & Distribution',
     subtitle: '',
@@ -49,14 +84,16 @@ const domainCards = ref<DomainCardType[]>([
     iconColor: '#047857'
   },
   {
-    icon: `<svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="50" cy="75" rx="20" ry="8" fill="currentColor"/>
-      <path d="M30 75 L35 35 C35 30 40 25 50 25 C60 25 65 30 65 35 L70 75" stroke="currentColor" stroke-width="3" fill="none"/>
-      <ellipse cx="50" cy="35" rx="15" ry="6" fill="none" stroke="currentColor" stroke-width="3"/>
-      <line x1="42" y1="50" x2="40" y2="60" stroke="currentColor" stroke-width="2"/>
-      <line x1="50" y1="48" x2="50" y2="62" stroke="currentColor" stroke-width="2"/>
-      <line x1="58" y1="50" x2="60" y2="60" stroke="currentColor" stroke-width="2"/>
-    </svg>`,
+    icon:  `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M40 15 H60 V30 L70 50 V85 H30 V50 L40 30 Z"
+      fill="#facc15" stroke="#ca8a04" stroke-width="3"/>
+
+    <line x1="40" y1="15" x2="60" y2="15" stroke="#ca8a04" stroke-width="3"/>
+
+    <circle cx="45" cy="60" r="3" fill="#fde047"/>
+    <circle cx="55" cy="65" r="2.5" fill="#fde047"/>
+    <circle cx="50" cy="72" r="2" fill="#fde047"/>
+  </svg>`,
     title: 'Produits Chimiques & Lubrifiants',
     subtitle: '',
     description: 'Nous proposons une variété de produits chimiques industriels et de lubrifiants de haute qualité, adaptés aux besoins spécifiques des clients, pour améliorer la performance des machines et prolonger la durée de vie des équipements.',
@@ -64,13 +101,37 @@ const domainCards = ref<DomainCardType[]>([
   },
   {
     icon: `<svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <rect x="25" y="35" width="50" height="30" rx="3" stroke="currentColor" stroke-width="3" fill="none"/>
-      <rect x="30" y="40" width="15" height="12" fill="currentColor"/>
-      <rect x="20" y="65" width="15" height="15" rx="7.5" fill="currentColor"/>
-      <rect x="65" y="65" width="15" height="15" rx="7.5" fill="currentColor"/>
-      <path d="M45 50 L55 50 L60 40 L75 40 L75 65" stroke="currentColor" stroke-width="3" fill="none"/>
-      <circle cx="27.5" cy="72.5" r="4" fill="white"/>
-      <circle cx="72.5" cy="72.5" r="4" fill="white"/>
+      <!-- Cabine du camion (inversée) -->
+      <rect x="50" y="40" width="25" height="20" rx="2" stroke="currentColor" stroke-width="3" fill="none"/>
+      <rect x="20" y="35" width="30" height="25" rx="2" stroke="currentColor" stroke-width="3" fill="none"/>
+      
+      <!-- Roues -->
+      <circle cx="35" cy="65" r="8" stroke="currentColor" stroke-width="3" fill="none"/>
+      <circle cx="65" cy="65" r="8" stroke="currentColor" stroke-width="3" fill="none"/>
+      
+      <!-- Intérieur roues -->
+      <circle cx="35" cy="65" r="4" fill="currentColor"/>
+      <circle cx="65" cy="65" r="4" fill="currentColor"/>
+      
+      <!-- Fenêtre cabine (inversée) -->
+      <rect x="23" y="42" width="8" height="8" fill="currentColor" opacity="0.3"/>
+      <rect x="33" y="42" width="8" height="8" fill="currentColor" opacity="0.3"/>
+      
+      <!-- Fenêtre remorque -->
+      <rect x="53" y="42" width="10" height="8" fill="currentColor" opacity="0.3"/>
+      
+      <!-- Phares (inversés) -->
+      <circle cx="25" cy="43" r="3" fill="#FFD700"/>
+      <circle cx="25" cy="57" r="3" fill="#DC2626"/>
+      
+      <!-- Pare-chocs (inversé) -->
+      <rect x="75" y="60" width="5" height="3" fill="currentColor"/>
+      
+      <!-- Échappement -->
+      <rect x="15" y="50" width="3" height="8" fill="#666"/>
+      
+      <!-- Détails remorque -->
+      <rect x="52" y="52" width="20" height="3" fill="currentColor" opacity="0.5"/>
     </svg>`,
     title: 'Transport & Logistique',
     subtitle: '',
@@ -82,17 +143,17 @@ const domainCards = ref<DomainCardType[]>([
 // Secteurs d'activité
 const sectorCards = ref<SectorCardType[]>([
   {
-    image: 'https://images.pexels.com/photos/3862600/pexels-photo-3862600.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: IndustrieMiniereImg,
     title: 'Industrie Minière',
     description: 'Le Mali figure parmi les principaux producteurs d\'or en Afrique. ABC2 – Group soutient cette industrie stratégique en fournissant des équipements de haute performance, des produits chimiques essentiels aux procédés d\'extraction, ainsi que des lubrifiants durables pour réduire les arrêts machines et les coûts d\'exploitation.'
   },
   {
-    image: 'https://images.pexels.com/photos/8853502/pexels-photo-8853502.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: AgroIndustrieImg,
     title: 'Agro-industrie & Industrie Manufacturière',
     description: 'Nous desservons les industries manufacturières en leur proposant des solutions robustes et sur mesure pour améliorer leur productivité et garantir la continuité de leurs activités.'
   },
   {
-    image: 'https://images.pexels.com/photos/414837/pexels-photo-414837.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: EnergieRenouvelableImg,
     title: 'Énergie Renouvelable',
     description: 'ABC2 – Group accompagne les entreprises dans la mise en place de solutions technologiques modernes et performantes. Nous proposons des équipements durables et innovants permettant de réduire les coûts énergétiques et l\'empreinte environnementale.'
   }
@@ -300,7 +361,7 @@ onMounted(() => {
       <div class="container">
         <div class="footer-content">
           <div class="footer-logo">
-            <img src="../public/assets/logo-re.png" alt="Logo" class="logo">
+            <img src="../../src/assets/logo-re.png" alt="Logo" class="logo">
             <span class="logo-text">ABC2-GROUP</span>
           </div>
           <nav class="footer-nav">
@@ -368,7 +429,7 @@ body {
 }
 
 .domains-section {
-  background: #f5f5f0;
+  background: #F1F8F0;
 }
 
 .sectors-section {
@@ -376,7 +437,7 @@ body {
 }
 
 .team-section {
-  background: #f8f9fa;
+  background: #F1F8F0;
 }
 
 .partners-section {
@@ -384,7 +445,7 @@ body {
 }
 
 .engagement-section {
-  background: #f5f5f0;
+  background: #F1F8F0;
 }
 
 .why-section {
@@ -392,7 +453,7 @@ body {
 }
 
 .contact-section {
-  background: #F5F5F0;
+  background: #f7fbf6;
   color: rgb(0, 0, 0);
 }
 
@@ -622,7 +683,7 @@ body {
 }
 
 .contact-email:hover {
-  background: #c7c79e;
+  background: #F1F8F0;
 }
 
 .email-icon {
@@ -643,7 +704,7 @@ body {
 
 /* Footer */
 .footer {
-  background: #cdcdb9;
+  background: #F1F8F0;
   color: rgb(0, 0, 0);
   padding: 3rem 0;
 }
@@ -675,7 +736,7 @@ body {
 .logo-text {
   font-size: 1.5rem;
   font-weight: 700;
-  color: white;
+  color: black;
 }
 
 .footer-nav {
@@ -685,14 +746,14 @@ body {
 }
 
 .footer-link {
-  color: #a0aec0;
+  color: #7c7c7c;
   text-decoration: none;
   font-size: 0.95rem;
   transition: color 0.3s ease;
 }
 
 .footer-link:hover {
-  color: white;
+  color: #000000;
 }
 
 /* Animations */
