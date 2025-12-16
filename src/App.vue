@@ -4,9 +4,9 @@ import AppHeader from './components/AppHeader.vue';
 import HeroSection from './components/HeroSection.vue';
 import DomainCard from './components/DomainCard.vue';
 import SectorCard from './components/SectorCard.vue';
-import IndustrieMiniereImg from '../src/assets/miniers.jpg';
-import AgroIndustrieImg from '../src/assets/barrile.png';
-import EnergieRenouvelableImg from '../src/assets/champ.jpg';
+import IndustrieMiniereImg from '@/assets/miniers.jpg';
+import AgroIndustrieImg from '@/assets/barrile.png';
+import EnergieRenouvelableImg from '@/assets/champ.jpg';
 import type { 
   DomainCard as DomainCardType, 
   SectorCard as SectorCardType
@@ -361,7 +361,7 @@ onMounted(() => {
       <div class="container">
         <div class="footer-content">
           <div class="footer-logo">
-            <img src="../../src/assets/logo-re.png" alt="Logo" class="logo">
+            <img src="@/assets/logo-re.png" alt="Logo" class="logo">
             <span class="logo-text">ABC2-GROUP</span>
           </div>
           <nav class="footer-nav">
