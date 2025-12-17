@@ -18,41 +18,53 @@ onBeforeUnmount(() => {
 });
 
 import { onBeforeUnmount } from 'vue';
+const contactInfo = ref({
+  email: 'contact@abc2-group.com',
+});
 </script>
 
 <template>
   <section class="hero">
     <!-- Image de fond optimisée pour mobile -->
-   <picture>
-  <!-- Mobile -->
-  <source
-    media="(max-width: 768px)"
-    srcset="../../src/assets/imageabc2.png"
-  />
-
-  <!-- Tablette -->
-  <source
-    media="(max-width: 1024px)"
-    srcset="../../src/assets/imageabc2.png"
-  />
-
-  <!-- Desktop (fallback obligatoire) -->
-  <img
-    src="../../src/assets/imageabc2.png"
-    alt="Approvisionnement technique"
-    class="hero-bg"
-    loading="eager"
-  />
-</picture>
-
+    <picture>
+      <!-- Mobile -->
+      <source
+        media="(max-width: 768px)"
+        srcset="../../src/assets/imageabc2.png"
+      />
+      <!-- Tablette -->
+      <source
+        media="(max-width: 1024px)"
+        srcset="../../src/assets/imageabc2.png"
+      />
+      <!-- Desktop (fallback obligatoire) -->
+      <img
+        src="../../src/assets/imageabc2.png"
+        alt="Approvisionnement technique"
+        class="hero-bg"
+        loading="eager"
+      />
+    </picture>
     
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1 class="hero-title">
-        APPROVISIONNEMENT<br />
-        TECHNIQUE
+        <span class="hero-eyebrow">Bienvenue chez</span>
+        <span class="hero-brand">ABC2-GROUP</span>
+        <span class="hero-tagline">
+          Votre partenaire expert en approvisionnement industriel<br class="line-break" />
+          et assistance technique sur mesure
+        </span>
       </h1>
-      <button class="cta-button">Demander un devis</button>
+      
+      <a
+        :href="`mailto:${contactInfo.email}`"
+        class="cta-button"
+        aria-label="Demander un devis"
+      >
+        <span class="cta-text">Demander un devis</span>
+        <span class="cta-arrow">→</span>
+      </a>
     </div>
   </section>
 </template>
@@ -100,129 +112,281 @@ import { onBeforeUnmount } from 'vue';
   text-align: center;
   padding: 1rem;
   width: 100%;
-  max-width: 1200px;
+  max-width: min(1200px, 90vw);
   margin: 0 auto;
   animation: fadeInUp 1s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
 }
 
 .hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  width: 100%;
+}
+
+/* Petit texte d'introduction */
+.hero-eyebrow {
+  font-size: clamp(0.85rem, 2vw, 1.2rem);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #a7f3d0;
+  opacity: 0.9;
+  display: block;
+}
+
+/* Nom de marque fort */
+.hero-brand {
   font-size: clamp(2rem, 8vw, 4.5rem);
-  font-weight: 800;
-  letter-spacing: clamp(0.5px, 0.5vw, 2px);
-  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
-  line-height: 1.1;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  animation: fadeInUp 1s ease-out 0.2s both;
-  padding: 0 1rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #ffffff;
+  text-align: center;
+  display: block;
+  margin: 0.2rem 0;
+
+  /* Dégradé premium */
+  background: linear-gradient(
+    90deg,
+    #ecfdf5 0%,
+    #5eead4 50%,
+    #99f6e4 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.hero-brand::after {
+  content: '';
+  display: block;
+  margin: 0.6rem auto 0;
+  width: min(60%, 300px);
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #14b8a6, #5eead4);
+  opacity: 0.85;
+}
+
+/* Slogan */
+.hero-tagline {
+  font-size: clamp(1rem, 3vw, 1.6rem);
+  font-weight: 500;
+  line-height: 1.4;
+  max-width: min(900px, 95%);
+  color: #e5e7eb;
+  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  margin-top: 0.5rem;
+  display: block;
+}
+
+/* Gestion du saut de ligne */
+.line-break {
+  display: block;
 }
 
 .cta-button {
-  background: #0f766e;
+  background: linear-gradient(135deg, #0f766e, #14b8a6);
   color: white;
-  border: none;
-  padding: clamp(0.875rem, 3vw, 1.25rem) clamp(1.5rem, 6vw, 3rem);
-  font-size: clamp(1rem, 3vw, 1.125rem);
-  font-weight: 600;
-  border-radius: 8px;
+  text-decoration: none;
+  padding: clamp(0.85rem, 2.5vw, 1.15rem) 
+           clamp(1.5rem, 5vw, 2.8rem);
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  font-weight: 700;
+  border-radius: 999px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
-  animation: fadeInUp 1s ease-out 0.4s both;
-  min-height: 44px; /* Taille minimale pour le toucher sur mobile */
-  min-width: 160px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  min-width: 200px;
+  max-width: 95vw;
+  box-shadow:
+    0 8px 24px rgba(15, 118, 110, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  transition: all 0.35s ease;
+  animation: fadeInUp 1s ease-out 0.4s both;
+  white-space: nowrap;
 }
 
+/* Texte */
+.cta-text {
+  white-space: nowrap;
+}
+
+/* Flèche animée */
+.cta-arrow {
+  font-size: 1.3em;
+  transition: transform 0.35s ease;
+}
+
+/* Hover */
 .cta-button:hover {
-  background: #0d5e57;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(15, 118, 110, 0.4);
+  transform: translateY(-3px);
+  box-shadow:
+    0 14px 32px rgba(15, 118, 110, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.25);
 }
 
+.cta-button:hover .cta-arrow {
+  transform: translateX(6px);
+}
+
+/* Active */
 .cta-button:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
 }
 
-/* Pour mobile portrait */
+/* Focus accessibilité */
+.cta-button:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.6);
+  outline-offset: 4px;
+}
+
+/* ===== RESPONSIVE ADAPTATIONS ===== */
+
+/* Mobile portrait */
 @media (max-width: 768px) and (orientation: portrait) {
   .hero {
     height: 90vh;
     min-height: 450px;
   }
   
-  .hero-title {
-    font-size: clamp(1.75rem, 7vw, 2.5rem);
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
+  .hero-content {
+    padding: 1rem 0.75rem;
+    gap: clamp(1.2rem, 5vw, 2rem);
   }
   
-  .hero-content {
-    padding: 1rem 0.5rem;
+  .hero-brand {
+    font-size: clamp(1.8rem, 7vw, 3rem);
+  }
+  
+  .hero-tagline {
+    font-size: clamp(0.95rem, 3.5vw, 1.3rem);
+    line-height: 1.3;
+  }
+  
+  .line-break {
+    display: none; /* On enlève le saut forcé sur mobile */
+  }
+  
+  .cta-button {
+    min-width: 180px;
+    padding: 0.8rem 1.8rem;
   }
 }
 
-/* Pour mobile paysage */
+/* Mobile paysage */
 @media (max-width: 900px) and (orientation: landscape) {
   .hero {
     height: 100vh;
     min-height: 300px;
   }
   
-  .hero-title {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    margin-bottom: 1rem;
+  .hero-content {
+    gap: 1.2rem;
+    padding: 0.5rem;
+  }
+  
+  .hero-brand {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+  }
+  
+  .hero-tagline {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    line-height: 1.2;
   }
   
   .cta-button {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.95rem;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+    min-width: 160px;
   }
 }
 
-/* Pour tablette */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .hero {
-    height: 85vh;
-  }
-  
-  .hero-title {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-  }
-}
-
-/* Pour petits téléphones (iPhone SE, etc.) */
+/* Petits téléphones (iPhone SE, etc.) */
 @media (max-width: 375px) {
   .hero {
     height: 85vh;
     min-height: 400px;
   }
   
-  .hero-title {
-    font-size: 1.5rem;
-    letter-spacing: 0.25px;
+  .hero-content {
+    padding: 0.5rem;
+    gap: 1.5rem;
+  }
+  
+  .hero-eyebrow {
+    font-size: 0.8rem;
+  }
+  
+  .hero-brand {
+    font-size: 1.7rem;
+  }
+  
+  .hero-tagline {
+    font-size: 0.95rem;
+    line-height: 1.25;
   }
   
   .cta-button {
-    min-width: 140px;
-    padding: 0.75rem 1.25rem;
+    min-width: 160px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
   }
 }
 
-/* Pour très grands écrans */
+/* Tablette */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero {
+    height: 85vh;
+  }
+  
+  .hero-content {
+    max-width: min(1000px, 85vw);
+  }
+  
+  .hero-brand {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+  }
+  
+  .hero-tagline {
+    font-size: clamp(1.2rem, 2.8vw, 1.5rem);
+  }
+}
+
+/* Très grands écrans */
 @media (min-width: 1920px) {
   .hero {
     max-height: 1400px;
   }
   
-  .hero-title {
+  .hero-content {
+    max-width: 1400px;
+  }
+  
+  .hero-brand {
     font-size: 5rem;
   }
   
+  .hero-tagline {
+    font-size: 1.8rem;
+  }
+  
   .cta-button {
-    padding: 1.5rem 4rem;
-    font-size: 1.25rem;
+    padding: 1.3rem 3.5rem;
+    font-size: 1.2rem;
   }
 }
 
