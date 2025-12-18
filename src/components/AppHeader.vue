@@ -127,7 +127,7 @@ import { watch, onBeforeUnmount } from 'vue';
   left: 0;
   right: 0;
   z-index: 1000;
-  /* background: #F1F8F0; */
+  background: #F1F8F0;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   transition: all 0.3s ease;
@@ -223,6 +223,7 @@ import { watch, onBeforeUnmount } from 'vue';
   position: relative;
   transition: color 0.3s ease;
   white-space: nowrap;
+  outline: none;
 }
 
 .nav-link::after {
@@ -381,9 +382,5 @@ import { watch, onBeforeUnmount } from 'vue';
 }
 
 /* Accessibilité : focus styles */
-.nav-link:focus,
-.menu-toggle:focus {
-  outline: 2px solid #047857;
-  outline-offset: 2px;
-}
+
 </style>

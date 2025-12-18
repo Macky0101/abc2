@@ -212,7 +212,9 @@ onMounted(() => {
 
 <template>
   <div class="app">
+     <section id="home">
     <AppHeader />
+    </section>
     <HeroSection />
 
     <!-- Section Présentation -->
