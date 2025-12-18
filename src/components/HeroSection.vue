@@ -1,52 +1,134 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const isMobile = ref(false);
+const currentSlide = ref(0);
+const totalSlides = 8;
+let slideInterval: ReturnType<typeof setTimeout>;
+
+const images = [
+  { id: 1, src: '../../src/assets/image1.jpg', alt: 'Image 1' },
+  { id: 2, src: '../../src/assets/image2.jpg', alt: 'Image 2' },
+  { id: 3, src: '../../src/assets/image3.jpg', alt: 'Image 3' },
+  { id: 4, src: '../../src/assets/image4.jpg', alt: 'Image 4' },
+  { id: 5, src: '../../src/assets/image5.jpg', alt: 'Image 5' },
+  { id: 6, src: '../../src/assets/image6.jpg', alt: 'Image 6' },
+  { id: 7, src: '../../src/assets/image7.jpg', alt: 'Image 7' },
+  { id: 8, src: '../../src/assets/image8.jpg', alt: 'Image 8' }
+];
+
+const contactInfo = ref({
+  email: 'contact@abc2-group.com',
+});
+
+const goToSlide = (index: number) => {
+  currentSlide.value = index;
+  resetInterval();
+};
+
+const nextSlide = () => {
+  currentSlide.value = (currentSlide.value + 1) % totalSlides;
+  resetInterval();
+};
+
+const prevSlide = () => {
+  currentSlide.value = (currentSlide.value - 1 + totalSlides) % totalSlides;
+  resetInterval();
+};
+
+const startInterval = () => {
+  slideInterval = setInterval(() => {
+    currentSlide.value = (currentSlide.value + 1) % totalSlides;
+  }, 5000); // Change toutes les 5 secondes
+};
+
+const resetInterval = () => {
+  clearInterval(slideInterval);
+  startInterval();
+};
 
 onMounted(() => {
   checkMobile();
   window.addEventListener('resize', checkMobile);
+  startInterval(); // Démarrer le carousel automatique
 });
 
 const checkMobile = () => {
   isMobile.value = window.innerWidth < 768;
 };
 
-// Cleanup
 onBeforeUnmount(() => {
   window.removeEventListener('resize', checkMobile);
-});
-
-import { onBeforeUnmount } from 'vue';
-const contactInfo = ref({
-  email: 'contact@abc2-group.com',
+  clearInterval(slideInterval);
 });
 </script>
 
 <template>
   <section class="hero">
-    <!-- Image de fond optimisée pour mobile -->
-    <picture>
-      <!-- Mobile -->
-      <source
-        media="(max-width: 768px)"
-        srcset="../../src/assets/imageabc2.png"
-      />
-      <!-- Tablette -->
-      <source
-        media="(max-width: 1024px)"
-        srcset="../../src/assets/imageabc2.png"
-      />
-      <!-- Desktop (fallback obligatoire) -->
-      <img
-        src="../../src/assets/imageabc2.png"
-        alt="Approvisionnement technique"
-        class="hero-bg"
-        loading="eager"
-      />
-    </picture>
+    <!-- Carousel Container -->
+    <div class="carousel-container">
+      <!-- Images du carousel -->
+      <div 
+        v-for="(image, index) in images" 
+        :key="image.id"
+        class="carousel-slide"
+        :class="{ 'active': index === currentSlide }"
+      >
+        <!-- Image de fond optimisée pour mobile -->
+        <picture>
+          <!-- Mobile -->
+          <source
+            media="(max-width: 768px)"
+            :srcset="image.src"
+          />
+          <!-- Tablette -->
+          <source
+            media="(max-width: 1024px)"
+            :srcset="image.src"
+          />
+          <!-- Desktop -->
+          <img
+            :src="image.src"
+            :alt="image.alt"
+            class="hero-bg"
+            loading="lazy"
+          />
+        </picture>
+      </div>
+      
+      <!-- Overlay pour améliorer la lisibilité du texte -->
+      <div class="hero-overlay"></div>
+      
+      <!-- Boutons de navigation du carousel -->
+      <button 
+        class="carousel-btn prev-btn" 
+        @click="prevSlide"
+        aria-label="Image précédente"
+      >
+        <span class="carousel-arrow">←</span>
+      </button>
+      
+      <button 
+        class="carousel-btn next-btn" 
+        @click="nextSlide"
+        aria-label="Image suivante"
+      >
+        <span class="carousel-arrow">→</span>
+      </button>
+      
+      <!-- Indicateurs de slide -->
+      <div class="carousel-indicators">
+        <button
+          v-for="(_, index) in images"
+          :key="index"
+          class="carousel-indicator"
+          :class="{ 'active': index === currentSlide }"
+          @click="goToSlide(index)"
+          :aria-label="`Aller à l'image ${index + 1}`"
+        />
+      </div>
+    </div>
     
-    <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1 class="hero-title">
         <span class="hero-eyebrow">Bienvenue chez</span>
@@ -83,8 +165,35 @@ const contactInfo = ref({
   overflow: hidden;
 }
 
+/* Conteneur du carousel */
+.carousel-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Slides du carousel */
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  pointer-events: none;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 /* Image de fond */
-.hero-bg {
+.carousel-slide .hero-bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -99,16 +208,16 @@ const contactInfo = ref({
   inset: 0;
   background: linear-gradient(
     180deg, 
-    rgba(0, 0, 0, 0.3) 0%,
-    rgba(0, 0, 0, 0.5) 50%,
-    rgba(0, 0, 0, 0.4) 100%
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.5) 100%
   );
   z-index: 1;
 }
 
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   padding: 1rem;
   width: 100%;
@@ -195,6 +304,75 @@ const contactInfo = ref({
   display: block;
 }
 
+/* Boutons de navigation du carousel */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: all 0.3s ease;
+  font-size: 1.5rem;
+  backdrop-filter: blur(5px);
+}
+
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+  left: 20px;
+}
+
+.next-btn {
+  right: 20px;
+}
+
+/* Indicateurs de slide */
+.carousel-indicators {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 2;
+}
+
+.carousel-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.carousel-indicator:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.carousel-indicator.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+/* CTA Button */
 .cta-button {
   background: linear-gradient(135deg, #0f766e, #14b8a6);
   color: white;
@@ -218,6 +396,8 @@ const contactInfo = ref({
   transition: all 0.35s ease;
   animation: fadeInUp 1s ease-out 0.4s both;
   white-space: nowrap;
+  z-index: 3;
+  position: relative;
 }
 
 /* Texte */
@@ -249,7 +429,9 @@ const contactInfo = ref({
 }
 
 /* Focus accessibilité */
-.cta-button:focus-visible {
+.cta-button:focus-visible,
+.carousel-btn:focus-visible,
+.carousel-indicator:focus-visible {
   outline: 3px solid rgba(20, 184, 166, 0.6);
   outline-offset: 4px;
 }
@@ -285,6 +467,29 @@ const contactInfo = ref({
     min-width: 180px;
     padding: 0.8rem 1.8rem;
   }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .prev-btn {
+    left: 10px;
+  }
+  
+  .next-btn {
+    right: 10px;
+  }
+  
+  .carousel-indicators {
+    bottom: 20px;
+  }
+  
+  .carousel-indicator {
+    width: 10px;
+    height: 10px;
+  }
 }
 
 /* Mobile paysage */
@@ -312,6 +517,11 @@ const contactInfo = ref({
     padding: 0.7rem 1.5rem;
     font-size: 0.9rem;
     min-width: 160px;
+  }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
   }
 }
 
@@ -344,6 +554,21 @@ const contactInfo = ref({
     min-width: 160px;
     padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
+  }
+  
+  .carousel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  .carousel-indicators {
+    bottom: 15px;
+  }
+  
+  .carousel-indicator {
+    width: 8px;
+    height: 8px;
   }
 }
 
@@ -388,12 +613,6 @@ const contactInfo = ref({
     padding: 1.3rem 3.5rem;
     font-size: 1.2rem;
   }
-}
-
-/* Accessibilité : focus */
-.cta-button:focus {
-  outline: 3px solid rgba(15, 118, 110, 0.5);
-  outline-offset: 2px;
 }
 
 /* Animations */
