@@ -62,6 +62,16 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', checkMobile);
   clearInterval(slideInterval);
 });
+
+const scrollToDevis = () => {
+  const devisSection = document.getElementById('devis');
+  if (devisSection) {
+    devisSection.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
 </script>
 
 <template>
@@ -140,14 +150,25 @@ onBeforeUnmount(() => {
         </span>
       </h1>
       
-      <a
+      <!-- <a
         :href="`mailto:${contactInfo.email}`"
         class="cta-button"
         aria-label="Demander un devis"
       >
         <span class="cta-text">Demander un devis</span>
         <span class="cta-arrow">→</span>
-      </a>
+      </a> -->
+
+      <a
+  href="#devis"
+  class="cta-button"
+  aria-label="Aller au formulaire de devis"
+  @click.prevent="scrollToDevis"
+>
+  <span class="cta-text">Demander un devis</span>
+  <span class="cta-arrow">→</span>
+</a>
+
     </div>
   </section>
 </template>

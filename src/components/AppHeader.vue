@@ -86,7 +86,7 @@ import { watch, onBeforeUnmount } from 'vue';
     <div class="container">
       <div class="logo" @click="smoothScroll('#home')">
         <img src="../../src/assets/logo-re.png" alt="Logo" class="logo">
-        <span class="logo-text responsive-text">ABC2-GROUP</span>
+        <!-- <span class="logo-text responsive-text">ABC2-GROUP</span> -->
       </div>
 
       <!-- Menu Hamburger pour mobile -->
@@ -216,7 +216,7 @@ import { watch, onBeforeUnmount } from 'vue';
 }
 
 .nav-link {
-  color: #1a1a1a;
+  color: #8fc888;
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;

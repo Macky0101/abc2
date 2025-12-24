@@ -4,6 +4,7 @@ import AppHeader from './components/AppHeader.vue';
 import HeroSection from './components/HeroSection.vue';
 import DomainCard from './components/DomainCard.vue';
 import SectorCard from './components/SectorCard.vue';
+import SimpleQuotationForm from './components/SimpleQuotationForm.vue';
 import IndustrieMiniereImg from '@/assets/miniers.jpg';
 import AgroIndustrieImg from '@/assets/barrile.png';
 import EnergieRenouvelableImg from '@/assets/champ.jpg';
@@ -347,6 +348,12 @@ onMounted(() => {
     <section id="contact" class="section contact-section" :class="{ 'visible': isVisible['contact'] }">
       <div class="container">
         <h2 class="section-title-contact">Contactez-Nous</h2>
+        <!-- <h2 class="section-title" style="color: #047857;">Demander un Devis Personnalisé</h2>
+        <p style="text-align: center; color: #64748b; margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+          Remplissez ce formulaire pour recevoir un devis détaillé sous format PDF. Notre équipe vous répondra dans les 24h.
+        </p>
+        <SimpleQuotationForm /> -->
+
         <div class="contact-content">
           <p class="contact-description">{{ contactInfo.description }}</p>
           <div class="contact-email">
@@ -356,6 +363,15 @@ onMounted(() => {
             <a :href="`mailto:${contactInfo.email}`" class="email-link">{{ contactInfo.email }}</a>
           </div>
         </div>
+      </div>
+    </section>
+    <section id="devis">
+      <div class="container">
+        <h2 class="section-title" style="color: #000000;">Demander un Devis Personnalisé</h2>
+        <p style="text-align: center; color: #64748b; margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+          Remplissez ce formulaire pour recevoir un devis détaillé sous format PDF. Notre équipe vous répondra dans les 24h.
+        </p>
+        <SimpleQuotationForm />
       </div>
     </section>
     <!-- Footer -->
