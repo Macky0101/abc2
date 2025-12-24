@@ -95,7 +95,7 @@
       <div class="success-card">
         <div class="success-icon">✓</div>
         <h3>Demande envoyée avec succès !</h3>
-        <p>Votre demande de devis a été envoyée à <strong>camaramacky73@gmail.com</strong></p>
+        <p>Votre demande de devis a été envoyée à <strong>contact@abc2-group.com</strong></p>
         <p class="confirmation-details">
           Un conseiller ABC2-GROUP vous contactera dans les 24h à l'adresse :<br>
           <strong>{{ formData.email }}</strong>
@@ -337,7 +337,7 @@ Date d'envoi : ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocal
     `.trim());
 
     // Ouvrir le client email
-    window.location.href = `mailto:camaramacky73@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:contact@abc2-group.com?subject=${subject}&body=${body}`;
     
     // Attendre un peu avant de considérer l'envoi comme réussi
     setTimeout(() => {
