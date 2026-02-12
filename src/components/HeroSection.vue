@@ -143,7 +143,7 @@ const scrollToDevis = () => {
     <div class="hero-content">
       <h1 class="hero-title">
         <span class="hero-eyebrow">Bienvenue chez</span>
-        <span class="hero-brand">ABC2-GROUP</span>
+        <span class="hero-brand">ABC²-GROUP</span>
         <span class="hero-tagline">
           Votre partenaire expert en approvisionnement industriel<br class="line-break" />
           et assistance technique sur mesure

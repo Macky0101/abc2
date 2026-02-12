@@ -33,3 +33,8 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* Prevent horizontal overflow caused by fixed/animated elements */
+html, body {
+  overflow-x: hidden;
+}

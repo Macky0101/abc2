@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { DomainCard } from '@/types';
-
+import type { DomainCard } from "@/types";
 
 defineProps<{
   card: DomainCard;
@@ -20,11 +19,13 @@ defineProps<{
 
 <style scoped>
 .domain-card {
-  background: #F1F8F0;
+  background: #f1f8f0;
   padding: 2.5rem 2rem;
   border-radius: 8px;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   cursor: pointer;
 }
 
@@ -57,6 +58,7 @@ defineProps<{
   font-size: 1.5rem;
   font-weight: 700;
   color: #1a1a1a;
+  min-height: 3.6rem;
   margin-bottom: 0.5rem;
   line-height: 1.2;
 }
@@ -74,5 +76,6 @@ defineProps<{
   color: #4a4a4a;
   line-height: 1.5;
   margin: 0;
+  text-align: left;
 }
 </style>

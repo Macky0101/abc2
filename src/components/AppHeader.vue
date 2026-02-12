@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import type { NavItem } from '@/types';
-import { ref, onMounted } from 'vue';
+import type { NavItem } from "@/types";
+import { ref, onMounted } from "vue";
 
 const navItems: NavItem[] = [
-  { label: 'Accueil', href: '#home' },
-  { label: 'Présentation', href: '#presentation' },
-  { label: 'Domaines', href: '#domaines' },
-  { label: 'Secteurs', href: '#secteurs' },
-  { label: 'Équipe', href: '#equipe' },
-  { label: 'Partenaires', href: '#partenaires' },
-  { label: 'Contact', href: '#contact' }
+  { label: "Accueil", href: "#home" },
+  { label: "Présentation", href: "#presentation" },
+  { label: "Domaines", href: "#domaines" },
+  { label: "Secteurs", href: "#secteurs" },
+  { label: "Équipe", href: "#equipe" },
+  { label: "Partenaires", href: "#partenaires" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const isScrolled = ref(false);
 const isMenuOpen = ref(false);
 
 // Gestion du défilement
-if (typeof window !== 'undefined') {
-  window.addEventListener('scroll', () => {
+if (typeof window !== "undefined") {
+  window.addEventListener("scroll", () => {
     isScrolled.value = window.scrollY > 50;
   });
 }
 
 // Fonction pour le défilement fluide
 const smoothScroll = (targetId: string) => {
-  const element = document.getElementById(targetId.replace('#', ''));
+  const element = document.getElementById(targetId.replace("#", ""));
   if (element) {
-    const headerHeight = document.querySelector('.header')?.clientHeight || 0;
+    const headerHeight = document.querySelector(".header")?.clientHeight || 0;
     const elementPosition = element.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
 
     window.scrollTo({
       top: offsetPosition,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
 
     // Ferme le menu mobile après clic
@@ -45,7 +45,7 @@ const smoothScroll = (targetId: string) => {
 // Fermer le menu en cliquant à l'extérieur
 const closeMenuOnClickOutside = (event: MouseEvent) => {
   const target = event.target as HTMLElement;
-  if (!target.closest('.nav') && !target.closest('.menu-toggle')) {
+  if (!target.closest(".nav") && !target.closest(".menu-toggle")) {
     isMenuOpen.value = false;
   }
 };
@@ -53,46 +53,46 @@ const closeMenuOnClickOutside = (event: MouseEvent) => {
 // Empêcher le défilement du body quand le menu est ouvert
 watch(isMenuOpen, (newValue) => {
   if (newValue) {
-    document.body.style.overflow = 'hidden';
-    document.addEventListener('click', closeMenuOnClickOutside);
+    document.body.style.overflow = "hidden";
+    document.addEventListener("click", closeMenuOnClickOutside);
   } else {
-    document.body.style.overflow = '';
-    document.removeEventListener('click', closeMenuOnClickOutside);
+    document.body.style.overflow = "";
+    document.removeEventListener("click", closeMenuOnClickOutside);
   }
 });
 
 // Fermer le menu avec la touche Escape
 const handleEscapeKey = (event: KeyboardEvent) => {
-  if (event.key === 'Escape') {
+  if (event.key === "Escape") {
     isMenuOpen.value = false;
   }
 };
 
 onMounted(() => {
-  document.addEventListener('keydown', handleEscapeKey);
+  document.addEventListener("keydown", handleEscapeKey);
 });
 
 onBeforeUnmount(() => {
-  document.removeEventListener('keydown', handleEscapeKey);
-  document.body.style.overflow = '';
+  document.removeEventListener("keydown", handleEscapeKey);
+  document.body.style.overflow = "";
 });
 
 // Import de watch et onBeforeUnmount
-import { watch, onBeforeUnmount } from 'vue';
+import { watch, onBeforeUnmount } from "vue";
 </script>
 
 <template>
-  <header :class="['header', { 'scrolled': isScrolled, 'menu-open': isMenuOpen }]">
+  <header :class="['header', { scrolled: isScrolled, 'menu-open': isMenuOpen }]">
     <div class="container">
       <div class="logo" @click="smoothScroll('#home')">
-        <img src="../../src/assets/logo-re.png" alt="Logo" class="logo">
+        <img src="../../src/assets/logo-re.png" alt="Logo" class="logo" />
         <!-- <span class="logo-text responsive-text">ABC2-GROUP</span> -->
       </div>
 
       <!-- Menu Hamburger pour mobile -->
-      <button 
-        class="menu-toggle" 
-        :class="{ 'active': isMenuOpen }" 
+      <button
+        class="menu-toggle"
+        :class="{ active: isMenuOpen }"
         @click="isMenuOpen = !isMenuOpen"
         aria-label="Menu"
       >
@@ -102,7 +102,7 @@ import { watch, onBeforeUnmount } from 'vue';
       </button>
 
       <!-- Navigation -->
-      <nav class="nav" :class="{ 'active': isMenuOpen }">
+      <nav class="nav" :class="{ active: isMenuOpen }">
         <a
           v-for="item in navItems"
           :key="item.label"
@@ -127,7 +127,7 @@ import { watch, onBeforeUnmount } from 'vue';
   left: 0;
   right: 0;
   z-index: 1000;
-  background: #F1F8F0;
+  background: #f1f8f0;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   transition: all 0.3s ease;
@@ -141,9 +141,7 @@ import { watch, onBeforeUnmount } from 'vue';
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+  margin: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -171,8 +169,6 @@ import { watch, onBeforeUnmount } from 'vue';
   letter-spacing: -0.5px;
   font-size: clamp(0.95rem, 2.5vw, 1.5rem);
 }
-
-
 
 /* Menu Toggle (Hamburger) */
 .menu-toggle {
@@ -216,7 +212,7 @@ import { watch, onBeforeUnmount } from 'vue';
 }
 
 .nav-link {
-  color: #8fc888;
+  color: #047857;
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
@@ -225,7 +221,7 @@ import { watch, onBeforeUnmount } from 'vue';
   white-space: nowrap;
   outline: none;
 }
-
+/* 
 .nav-link::after {
   content: '';
   position: absolute;
@@ -243,10 +239,10 @@ import { watch, onBeforeUnmount } from 'vue';
 
 .nav-link:hover::after {
   width: 100%;
-}
+} */
 
 /* Menu Overlay */
-.menu-overlay {
+/* .menu-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -254,14 +250,14 @@ import { watch, onBeforeUnmount } from 'vue';
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
-}
+} */
 
 /* Responsive Design */
 @media (max-width: 1024px) {
   .nav {
     gap: 1.5rem;
   }
-  
+
   .nav-link {
     font-size: 0.95rem;
   }
@@ -271,15 +267,15 @@ import { watch, onBeforeUnmount } from 'vue';
   .container {
     padding: 0 1rem;
   }
-  
+
   .logo-text {
     font-size: 1.3rem;
   }
-  
+
   .menu-toggle {
     display: flex;
   }
-  
+
   .nav {
     position: fixed;
     top: 0;
@@ -297,11 +293,11 @@ import { watch, onBeforeUnmount } from 'vue';
     z-index: 1001;
     overflow-y: auto;
   }
-  
+
   .nav.active {
     right: 0;
   }
-  
+
   .nav-link {
     width: 100%;
     padding: 1rem 0;
@@ -309,16 +305,16 @@ import { watch, onBeforeUnmount } from 'vue';
     border-bottom: 1px solid #f0f0f0;
     transition: all 0.3s ease;
   }
-  
+
   .nav-link:hover {
     background-color: #f9f9f9;
-    padding-left: 0.5rem;
+    /* padding-left: 0.5rem; */
   }
-  
+
   .nav-link::after {
     display: none;
   }
-  
+
   .menu-overlay {
     display: block;
   }
@@ -328,30 +324,30 @@ import { watch, onBeforeUnmount } from 'vue';
   .container {
     padding: 0 0.75rem;
   }
-  
+
   .logo {
     gap: 0.5rem;
   }
-  
+
   .logo svg {
     width: 32px;
     height: 32px;
   }
-  
+
   .logo-text {
     font-size: 1.1rem;
   }
-  
+
   .nav {
     width: 250px;
     padding: 4rem 1.5rem 2rem;
   }
-  
+
   .nav-link {
     font-size: 1rem;
     padding: 0.9rem 0;
   }
-  
+
   .menu-toggle {
     width: 26px;
     height: 20px;
@@ -362,12 +358,12 @@ import { watch, onBeforeUnmount } from 'vue';
   .logo-text {
     font-size: 1rem;
   }
-  
+
   .nav {
     width: 220px;
     padding: 3.5rem 1rem 1.5rem;
   }
-  
+
   .nav-link {
     font-size: 0.95rem;
     padding: 0.8rem 0;
@@ -382,5 +378,4 @@ import { watch, onBeforeUnmount } from 'vue';
 }
 
 /* Accessibilité : focus styles */
-
 </style>

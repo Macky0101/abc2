@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { SectorCard } from '@/types';
-
+import type { SectorCard } from "@/types";
 
 defineProps<{
   card: SectorCard;
@@ -24,7 +23,9 @@ defineProps<{
   background: white;
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   cursor: pointer;
 }
 
@@ -58,6 +59,7 @@ defineProps<{
   font-size: 1.5rem;
   font-weight: 700;
   color: #1a1a1a;
+  min-height: 3.6rem;
   margin-bottom: 1rem;
   line-height: 1.2;
 }
