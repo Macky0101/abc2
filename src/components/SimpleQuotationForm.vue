@@ -1,7 +1,7 @@
 <template>
   <div class="quotation-form-container">
     <div class="form-header">
-      <h2>📋 Demande de Devis</h2>
+      <h2>Demande de Devis</h2>
       <p>Remplissez ce formulaire pour envoyer votre demande de devis</p>
     </div>
 
