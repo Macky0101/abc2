@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, nextTick } from "vue";
 import AppHeader from "./components/AppHeader.vue";
 import HeroSection from "./components/HeroSection.vue";
 import QuotationForm from "./components/QuotationForm.vue";
@@ -17,7 +17,35 @@ const setLang = (lang: Lang) => {
     localStorage.setItem("abc2_lang", lang);
   }
   document.documentElement.lang = lang;
+  nextTick(() => {
+    initScrollReveal();
+  });
 };
+
+// Animation d'apparition au défilement (Scroll reveal)
+const initScrollReveal = () => {
+  if (typeof IntersectionObserver === "undefined") return;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+  );
+
+  document.querySelectorAll(".reveal-item").forEach((el) => {
+    observer.observe(el);
+  });
+};
+
+onMounted(() => {
+  nextTick(() => {
+    initScrollReveal();
+  });
+});
 
 // Gestion des replis d'images
 const handleImgError = (event: Event, fallbackSrc: string) => {
@@ -58,7 +86,7 @@ const scrollTo = (id: string, e: Event) => {
       <!-- Section À qui nous nous adressons -->
       <section class="section audience-section" id="audience">
         <div class="wrap">
-          <div class="section-head">
+          <div class="section-head reveal-item">
             <p class="kicker">{{ t.targetAudience.kicker }}</p>
             <h2>{{ t.targetAudience.title }}</h2>
           </div>
@@ -66,7 +94,8 @@ const scrollTo = (id: string, e: Event) => {
             <article 
               v-for="(card, index) in t.targetAudience.cards" 
               :key="index" 
-              class="card audience-card"
+              class="card audience-card reveal-item"
+              :class="`reveal-delay-${(index % 3) + 1}`"
             >
               <p class="tag">{{ card.tag }}</p>
               <h3>{{ card.title }}</h3>
@@ -82,7 +111,7 @@ const scrollTo = (id: string, e: Event) => {
       <!-- Section Nos activités (Pièces ELEMENT®, Équipements, Chimie, Logistique) -->
       <section class="section alt activities-section" id="pieces">
         <div class="wrap">
-          <div class="section-head">
+          <div class="section-head reveal-item">
             <p class="kicker">{{ t.activities.kicker }}</p>
             <h2>{{ t.activities.title }}</h2>
             <p class="lead">{{ t.activities.lead }}</p>
@@ -91,7 +120,8 @@ const scrollTo = (id: string, e: Event) => {
             <article 
               v-for="(item, index) in t.activities.items" 
               :key="index" 
-              class="card card-img activity-card"
+              class="card card-img activity-card reveal-item"
+              :class="`reveal-delay-${(index % 2) + 1}`"
               :id="index === 1 ? 'equipements' : (index === 2 ? 'chimie' : (index === 3 ? 'logistique' : ''))"
             >
               <div class="card-img-wrapper">
@@ -120,12 +150,17 @@ const scrollTo = (id: string, e: Event) => {
       <!-- Section 4 Étapes : De l'usine du fournisseur à votre site -->
       <section class="section dark process-section" id="processus">
         <div class="wrap">
-          <div class="section-head">
+          <div class="section-head reveal-item">
             <p class="kicker">{{ t.steps.kicker }}</p>
             <h2>{{ t.steps.title }}</h2>
           </div>
           <ol class="steps">
-            <li v-for="(stepItem, index) in t.steps.list" :key="index">
+            <li 
+              v-for="(stepItem, index) in t.steps.list" 
+              :key="index"
+              class="reveal-item"
+              :class="`reveal-delay-${(index % 4) + 1}`"
+            >
               <h3>{{ stepItem.title }}</h3>
               <p>{{ stepItem.desc }}</p>
             </li>
@@ -136,7 +171,7 @@ const scrollTo = (id: string, e: Event) => {
       <!-- Section Marques partenaires -->
       <section class="section brands-section" id="fournisseurs">
         <div class="wrap">
-          <div class="section-head">
+          <div class="section-head reveal-item">
             <p class="kicker">{{ t.brands.kicker }}</p>
             <h2>{{ t.brands.title }}</h2>
           </div>
@@ -144,7 +179,8 @@ const scrollTo = (id: string, e: Event) => {
             <div 
               v-for="(brand, index) in t.brands.items" 
               :key="index" 
-              class="brand-box"
+              class="brand-box reveal-item"
+              :class="`reveal-delay-${(index % 5) + 1}`"
             >
               <strong>{{ brand.name }}</strong>
               <small>{{ brand.desc }}</small>
@@ -156,7 +192,7 @@ const scrollTo = (id: string, e: Event) => {
       <!-- Section Secteurs desservis -->
       <section class="section alt sectors-section" id="secteurs">
         <div class="wrap">
-          <div class="section-head">
+          <div class="section-head reveal-item">
             <p class="kicker">{{ t.sectors.kicker }}</p>
             <h2>{{ t.sectors.title }}</h2>
           </div>
@@ -164,7 +200,8 @@ const scrollTo = (id: string, e: Event) => {
             <article 
               v-for="(sector, index) in t.sectors.items" 
               :key="index" 
-              class="card card-img sector-card"
+              class="card card-img sector-card reveal-item"
+              :class="`reveal-delay-${(index % 3) + 1}`"
             >
               <div class="card-img-wrapper">
                 <img 
@@ -192,11 +229,11 @@ const scrollTo = (id: string, e: Event) => {
       <!-- Section Pourquoi ABC² - Group -->
       <section class="section why-section" id="entreprise">
         <div class="wrap">
-          <div class="section-head">
+          <div class="section-head reveal-item">
             <p class="kicker">{{ t.whyUs.kicker }}</p>
             <h2>{{ t.whyUs.title }}</h2>
           </div>
-          <div class="split">
+          <div class="split reveal-item">
             <div class="why-content">
               <ul class="checks">
                 <li v-for="(check, index) in t.whyUs.checks" :key="index">
@@ -230,23 +267,25 @@ const scrollTo = (id: string, e: Event) => {
       <!-- Section Demande de Devis Personnalisé avec Générateur PDF -->
       <section class="section devis-section" id="devis">
         <div class="wrap">
-          <div class="section-head">
+          <div class="section-head reveal-item">
             <p class="kicker">{{ t.quoteSection.kicker }}</p>
             <h2>{{ t.quoteSection.title }}</h2>
             <p class="lead">{{ t.quoteSection.subtitle }}</p>
           </div>
-          <QuotationForm :lang="currentLang" />
+          <div class="reveal-item reveal-delay-1">
+            <QuotationForm :lang="currentLang" />
+          </div>
         </div>
       </section>
 
       <!-- Section Questions fréquentes (FAQ) -->
       <section class="section alt faq-section" id="faq">
         <div class="wrap">
-          <div class="section-head">
+          <div class="section-head reveal-item">
             <p class="kicker">{{ t.faq.kicker }}</p>
             <h2>{{ t.faq.title }}</h2>
           </div>
-          <div class="faq-box">
+          <div class="faq-box reveal-item">
             <details v-for="(faqItem, index) in t.faq.items" :key="index">
               <summary>
                 <span>{{ faqItem.q }}</span>
@@ -260,7 +299,7 @@ const scrollTo = (id: string, e: Event) => {
 
       <!-- Bandeau d'appel à l'action CTA -->
       <section class="cta-band">
-        <div class="wrap">
+        <div class="wrap reveal-item">
           <h2>{{ t.ctaBand.title }}</h2>
           <a href="#devis" class="btn btn-primary" @click="scrollTo('devis', $event)">
             {{ t.ctaBand.btn }}

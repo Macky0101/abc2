@@ -188,32 +188,33 @@ const scrollTo = (id: string, e: Event) => {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 6s ease-out;
-  transform: scale(1.08);
+  transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), transform 5.5s cubic-bezier(0.25, 1, 0.5, 1);
+  transform: scale(1.10) translateX(12px);
+  will-change: transform, opacity;
 }
 
 .bg-slide.active {
-  opacity: 0.42;
-  transform: scale(1);
+  opacity: 0.70; /* Visibilité nette des images en arrière-plan */
+  transform: scale(1) translateX(0);
 }
 
 .bg-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 38%;
+  object-position: center 40%;
 }
 
-/* Gradient overlay */
+/* Dégradé ajusté pour voir clairement les images tout en protégeant la lisibilité du texte */
 .hero-gradient-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   background: linear-gradient(
-    102deg,
-    rgba(14, 47, 39, 0.97) 22%,
-    rgba(14, 47, 39, 0.88) 55%,
-    rgba(14, 47, 39, 0.62) 100%
+    105deg,
+    rgba(14, 47, 39, 0.88) 18%,
+    rgba(14, 47, 39, 0.65) 55%,
+    rgba(14, 47, 39, 0.32) 100%
   );
   pointer-events: none;
 }
@@ -273,7 +274,15 @@ const scrollTo = (id: string, e: Event) => {
 .hero h1 {
   max-width: 17ch;
   margin-bottom: 0.4em;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.65), 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.hero .kicker {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+.hero .lead {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
 }
 
 .btn-arrow {
@@ -295,25 +304,49 @@ const scrollTo = (id: string, e: Event) => {
 }
 
 .indicator-pill {
-  width: 28px;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.25);
+  width: 32px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.35);
   border: none;
   padding: 0;
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: width 0.3s ease, background 0.3s ease;
 }
 
 .indicator-pill:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .indicator-pill.active {
-  width: 48px;
+  width: 58px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.indicator-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
   background: var(--orange);
+  border-radius: 3px;
+  box-shadow: 0 0 8px rgba(245, 147, 33, 0.6);
+}
+
+.indicator-pill.active .indicator-progress {
+  animation: progressFill 5s linear forwards;
+}
+
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 /* Facts Grid */
