@@ -1,381 +1,335 @@
 <script setup lang="ts">
-import type { NavItem } from "@/types";
-import { ref, onMounted } from "vue";
+import { ref, computed } from 'vue';
+import type { Lang, SiteContent } from '../content';
 
-const navItems: NavItem[] = [
-  { label: "Accueil", href: "#home" },
-  { label: "Présentation", href: "#presentation" },
-  { label: "Domaines", href: "#domaines" },
-  { label: "Secteurs", href: "#secteurs" },
-  { label: "Équipe", href: "#equipe" },
-  { label: "Partenaires", href: "#partenaires" },
-  { label: "Contact", href: "#contact" },
-];
+const props = defineProps<{
+  lang: Lang;
+  content: SiteContent;
+}>();
 
-const isScrolled = ref(false);
+const emit = defineEmits<{
+  (e: 'update:lang', newLang: Lang): void;
+  (e: 'navigate', sectionId: string): void;
+}>();
+
 const isMenuOpen = ref(false);
 
-// Gestion du défilement
-if (typeof window !== "undefined") {
-  window.addEventListener("scroll", () => {
-    isScrolled.value = window.scrollY > 50;
-  });
-}
-
-// Fonction pour le défilement fluide
-const smoothScroll = (targetId: string) => {
-  const element = document.getElementById(targetId.replace("#", ""));
-  if (element) {
-    const headerHeight = document.querySelector(".header")?.clientHeight || 0;
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
-
-    // Ferme le menu mobile après clic
-    if (window.innerWidth < 768) {
-      isMenuOpen.value = false;
-    }
-  }
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value;
 };
 
-// Fermer le menu en cliquant à l'extérieur
-const closeMenuOnClickOutside = (event: MouseEvent) => {
-  const target = event.target as HTMLElement;
-  if (!target.closest(".nav") && !target.closest(".menu-toggle")) {
-    isMenuOpen.value = false;
-  }
+const closeMenu = () => {
+  isMenuOpen.value = false;
 };
 
-// Empêcher le défilement du body quand le menu est ouvert
-watch(isMenuOpen, (newValue) => {
-  if (newValue) {
-    document.body.style.overflow = "hidden";
-    document.addEventListener("click", closeMenuOnClickOutside);
-  } else {
-    document.body.style.overflow = "";
-    document.removeEventListener("click", closeMenuOnClickOutside);
-  }
-});
-
-// Fermer le menu avec la touche Escape
-const handleEscapeKey = (event: KeyboardEvent) => {
-  if (event.key === "Escape") {
-    isMenuOpen.value = false;
-  }
+const setLang = (l: Lang) => {
+  emit('update:lang', l);
 };
 
-onMounted(() => {
-  document.addEventListener("keydown", handleEscapeKey);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener("keydown", handleEscapeKey);
-  document.body.style.overflow = "";
-});
-
-// Import de watch et onBeforeUnmount
-import { watch, onBeforeUnmount } from "vue";
+const handleNav = (targetId: string, event: Event) => {
+  event.preventDefault();
+  closeMenu();
+  const el = document.getElementById(targetId);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
 </script>
 
 <template>
-  <header :class="['header', { scrolled: isScrolled, 'menu-open': isMenuOpen }]">
-    <div class="container">
-      <div class="logo" @click="smoothScroll('#home')">
-        <img src="../../src/assets/logo-re.png" alt="Logo" class="logo" />
-        <!-- <span class="logo-text responsive-text">ABC2-GROUP</span> -->
-      </div>
+  <header class="site-header">
+    <div class="wrap header-wrap">
+      <!-- Logo marque ABC² - Group -->
+      <a href="#" class="brand" @click.prevent="handleNav('top', $event)" aria-label="ABC² - Group, Accueil">
+        <svg class="brand-logo-svg" viewBox="0 0 220 240" role="img" aria-label="ABC² - Group Logo">
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="26">
+            <polyline points="28,226 28,46 58,84" stroke="#F59321"/>
+            <line x1="22" y1="228" x2="148" y2="142" stroke="#D92027"/>
+            <line x1="76" y1="138" x2="192" y2="26" stroke="#28A68E"/>
+            <polyline points="194,30 194,212 164,190" stroke="#4FB358"/>
+          </g>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name">ABC<sup>2</sup> - GROUP</span>
+          <span class="brand-sub">BAMAKO · MALI</span>
+        </span>
+      </a>
 
-      <!-- Menu Hamburger pour mobile -->
-      <button
-        class="menu-toggle"
-        :class="{ active: isMenuOpen }"
-        @click="isMenuOpen = !isMenuOpen"
-        aria-label="Menu"
+      <!-- Menu burger pour mobile -->
+      <button 
+        class="menu-toggle" 
+        :aria-expanded="isMenuOpen" 
+        aria-controls="nav-main"
+        aria-label="Menu principal"
+        @click="toggleMenu"
       >
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+        <span class="burger-bar" :class="{ 'open': isMenuOpen }"></span>
+        <span class="burger-bar" :class="{ 'open': isMenuOpen }"></span>
+        <span class="burger-bar" :class="{ 'open': isMenuOpen }"></span>
       </button>
 
-      <!-- Navigation -->
-      <nav class="nav" :class="{ active: isMenuOpen }">
-        <a
-          v-for="item in navItems"
-          :key="item.label"
-          :href="item.href"
-          class="nav-link"
-          @click.prevent="smoothScroll(item.href)"
-        >
-          {{ item.label }}
-        </a>
+      <!-- Navigation principale -->
+      <nav class="nav" id="nav-main" :class="{ 'open': isMenuOpen }" aria-label="Navigation principale">
+        <ul>
+          <li><a href="#pieces" @click="handleNav('pieces', $event)">{{ content.nav.pieces }}</a></li>
+          <li><a href="#equipements" @click="handleNav('equipements', $event)">{{ content.nav.equipment }}</a></li>
+          <li><a href="#chimie" @click="handleNav('chimie', $event)">{{ content.nav.chemicals }}</a></li>
+          <li><a href="#secteurs" @click="handleNav('secteurs', $event)">{{ content.nav.sectors }}</a></li>
+          <li><a href="#fournisseurs" @click="handleNav('fournisseurs', $event)">{{ content.nav.suppliers }}</a></li>
+          <li><a href="#entreprise" @click="handleNav('entreprise', $event)">{{ content.nav.company }}</a></li>
+          <li class="nav-contact"><a href="#contact" @click="handleNav('contact', $event)">{{ content.nav.contact }}</a></li>
+        </ul>
       </nav>
 
-      <!-- Overlay pour mobile -->
-      <div v-if="isMenuOpen" class="menu-overlay" @click="isMenuOpen = false"></div>
+      <!-- Sélecteur de langue bilingue -->
+      <div class="lang-switch" aria-label="Langue">
+        <button 
+          type="button" 
+          :class="{ active: lang === 'fr' }" 
+          @click="setLang('fr')" 
+          title="Passer en Français"
+        >
+          FR
+        </button>
+        <button 
+          type="button" 
+          :class="{ active: lang === 'en' }" 
+          @click="setLang('en')" 
+          title="Switch to English"
+        >
+          EN
+        </button>
+      </div>
+
+      <!-- Bouton d'action principal -->
+      <a href="#devis" class="btn btn-primary header-cta" @click="handleNav('devis', $event)">
+        {{ content.nav.quoteBtn }}
+      </a>
     </div>
   </header>
 </template>
 
 <style scoped>
-.header {
-  position: fixed;
+.site-header {
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: #f1f8f0;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
-  padding: 1rem 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  background: rgba(247, 248, 244, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  transition: all 0.2s ease;
 }
 
-.header.scrolled {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 0.75rem 0;
-}
-
-.container {
-  margin: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-}
-
-.logo {
+.header-wrap {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  z-index: 1002;
-  width: 70px;
+  gap: 20px;
+  min-height: 74px;
 }
 
-.logo:hover {
-  transform: scale(1.05);
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex: none;
+  transition: opacity 0.2s ease;
 }
 
-.logo-text {
+.brand:hover {
+  opacity: 0.9;
+}
+
+.brand-logo-svg {
+  width: 36px;
+  height: 39px;
+  flex: none;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font: 800 1.22rem/1 var(--f-display);
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.brand-name sup {
+  font-size: 0.62em;
+  color: var(--orange);
+}
+
+.brand-sub {
+  display: block;
+  font: 600 0.65rem/1 var(--f-mono);
+  letter-spacing: 0.22em;
+  color: var(--ink-60);
+  margin-top: 5px;
+}
+
+.nav {
+  margin-left: auto;
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.nav a {
+  display: block;
+  padding: 10px 11px;
+  font-size: 0.93rem;
+  font-weight: 500;
   white-space: nowrap;
-  font-weight: 700;
-  color: #1a1a1a;
-  letter-spacing: -0.5px;
-  font-size: clamp(0.95rem, 2.5vw, 1.5rem);
+  text-decoration: none;
+  border-radius: var(--radius);
+  color: var(--ink);
+  transition: all 0.15s ease;
 }
 
-/* Menu Toggle (Hamburger) */
+.nav a:hover {
+  background: var(--concrete);
+  color: var(--pine);
+}
+
+.nav li.nav-contact {
+  display: none;
+}
+
+.lang-switch {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--paper);
+  flex: none;
+}
+
+.lang-switch button {
+  background: none;
+  border: none;
+  font: 600 0.76rem/1 var(--f-mono);
+  padding: 9px 12px;
+  cursor: pointer;
+  color: var(--ink-60);
+  transition: all 0.2s ease;
+}
+
+.lang-switch button:hover {
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.lang-switch button.active {
+  background: var(--pine);
+  color: #ffffff;
+}
+
+.header-cta {
+  flex: none;
+  padding: 12px 18px;
+  font-size: 0.92rem;
+}
+
 .menu-toggle {
   display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 30px;
-  height: 24px;
-  background: transparent;
-  border: none;
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--line);
+  padding: 10px;
+  border-radius: var(--radius);
   cursor: pointer;
-  padding: 0;
-  z-index: 1002;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.menu-toggle .bar {
-  width: 100%;
-  height: 3px;
-  background-color: #1a1a1a;
-  border-radius: 10px;
+.burger-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--ink);
   transition: all 0.3s ease;
 }
 
-.menu-toggle.active .bar:nth-child(1) {
-  transform: rotate(45deg) translate(6px, 6px);
+.burger-bar.open:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
 }
 
-.menu-toggle.active .bar:nth-child(2) {
+.burger-bar.open:nth-child(2) {
   opacity: 0;
 }
 
-.menu-toggle.active .bar:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
+.burger-bar.open:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
-/* Navigation */
-.nav {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-}
-
-.nav-link {
-  color: #047857;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1rem;
-  position: relative;
-  transition: color 0.3s ease;
-  white-space: nowrap;
-  outline: none;
-}
-/* 
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: #047857;
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover {
-  color: #047857;
-}
-
-.nav-link:hover::after {
-  width: 100%;
-} */
-
-/* Menu Overlay */
-/* .menu-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-} */
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .nav {
-    gap: 1.5rem;
+@media (max-width: 1220px) {
+  .header-cta {
+    display: none;
   }
-
-  .nav-link {
-    font-size: 0.95rem;
+  .nav li.nav-contact {
+    display: block;
   }
 }
 
-@media (max-width: 880px) {
-  .container {
-    padding: 0 1rem;
-  }
-
-  .logo-text {
-    font-size: 1.3rem;
-  }
-
+@media (max-width: 1060px) {
   .menu-toggle {
     display: flex;
   }
 
   .nav {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 280px;
-    height: 100vh;
-    background: white;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 5rem 2rem 2rem;
-    gap: 0;
-    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1001;
-    overflow-y: auto;
-  }
-
-  .nav.active {
-    right: 0;
-  }
-
-  .nav-link {
-    width: 100%;
-    padding: 1rem 0;
-    font-size: 1.1rem;
-    border-bottom: 1px solid #f0f0f0;
-    transition: all 0.3s ease;
-  }
-
-  .nav-link:hover {
-    background-color: #f9f9f9;
-    /* padding-left: 0.5rem; */
-  }
-
-  .nav-link::after {
     display: none;
+    position: absolute;
+    top: 74px;
+    left: 0;
+    right: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 16px 24px 24px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
   }
 
-  .menu-overlay {
+  .nav.open {
     display: block;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 0.75rem;
+    animation: slideDown 0.25s ease-out;
   }
 
-  .logo {
-    gap: 0.5rem;
+  .nav ul {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
   }
 
-  .logo svg {
-    width: 32px;
-    height: 32px;
+  .nav a {
+    padding: 12px 14px;
+    font-size: 1.05rem;
   }
 
-  .logo-text {
-    font-size: 1.1rem;
+  .lang-switch {
+    order: 2;
   }
-
-  .nav {
-    width: 250px;
-    padding: 4rem 1.5rem 2rem;
-  }
-
-  .nav-link {
-    font-size: 1rem;
-    padding: 0.9rem 0;
-  }
-
+  
   .menu-toggle {
-    width: 26px;
-    height: 20px;
+    order: 3;
   }
 }
 
-@media (max-width: 360px) {
-  .logo-text {
-    font-size: 1rem;
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
   }
-
-  .nav {
-    width: 220px;
-    padding: 3.5rem 1rem 1.5rem;
-  }
-
-  .nav-link {
-    font-size: 0.95rem;
-    padding: 0.8rem 0;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-
-/* Pour les très hautes résolutions */
-@media (min-width: 1400px) {
-  .container {
-    max-width: 1320px;
-  }
-}
-
-/* Accessibilité : focus styles */
 </style>
